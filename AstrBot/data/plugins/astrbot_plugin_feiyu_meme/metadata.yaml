@@ -1,0 +1,10 @@
+name: astrbot_plugin_feiyu_meme
+display_name: 大肥鱼表情包
+short_desc: 让大肥鱼学会发表情包，没有合适的还能自己画一张
+desc: 提供本地表情包库与两个 LLM 工具（send_meme / make_meme），聊天时按情绪自动配图；支持用 /存表情 关键词 让它把群友发的表情包学进库里复用，完全离线，不依赖任何第三方接口。
+version: v1.0.0
+author: dafeiyu
+repo: ""
+astrbot_version: ">=4.16"
+support_platforms:
+  - aiocqhttp

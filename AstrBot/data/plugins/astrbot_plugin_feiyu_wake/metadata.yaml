@@ -1,0 +1,10 @@
+name: astrbot_plugin_feiyu_wake
+display_name: 大肥鱼·群聊自然唤醒
+short_desc: 群聊不用 @ 不用关键词，它自己决定要不要接话
+desc: 任何群消息都可唤醒机器人：正文出现「大肥鱼 / 肥鱼 / 大鱼 / 鱼鱼 / 小鱼干」必答，普通消息按概率（默认 50%）参与，并带会话级冷却防刷屏。概率与冷却可在插件 main.py 顶部常量里调整。
+version: v1.1.0
+author: dafeiyu
+repo: ""
+astrbot_version: ">=4.16"
+support_platforms:
+  - aiocqhttp

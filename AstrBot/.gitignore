@@ -20,7 +20,16 @@ cookies.json
 # Data files
 data_v2.db
 data_v3.db
-data
+# 仅排除敏感/临时数据；插件、表情包库、配置模板需要入库
+data/logs/
+data/temp/
+data/attachments/
+data/trace*
+data/config/
+data/webchat/
+data/knowledge_base/
+data/plugin_data/
+data/cmd_config.json
 configs/session
 configs/config.yaml
 cmd_config.json

@@ -1,0 +1,5 @@
+name: astrbot_plugin_at_tagger
+desc: 让 LLM 回复中的 @昵称 变成真正的艾特（At 组件），支持艾特群里任意成员。
+version: v1.0.0
+author: dafeiyu
+repo: local
