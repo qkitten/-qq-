@@ -1,0 +1,51 @@
+# ===== 敏感配置（含 API Key / 密码，绝不提交）=====
+AstrBot/data/cmd_config.json
+AstrBot/data/config/*.json
+AstrBot/data/dashboard/
+tools/persona_backup.json
+
+# ===== 运行日志 / 临时文件 =====
+*.log
+astrbot_out.log
+astrbot_err.log
+napcat_new.log
+AstrBot/data/logs/
+AstrBot/data/temp/
+AstrBot/data/attachments/
+*.tmp
+*.pyc
+__pycache__/
+trace*/
+
+# ===== QQ 协议端（含登录态，太大且涉隐私）=====
+OneKey/NapCat.52230.Shell/
+OneKey/NapCat.52230.Shell.broken/
+OneKey/bootmain/
+OneKey/*.zip
+OneKey/*.exe
+OneKey/*.dll
+
+# ===== 大文件（用 Release 附件或 LFS 分发）=====
+tools/ffmpeg-9.0.2-full_build/
+*.zip
+*.7z
+
+# ===== 插件内的缓存与生成物 =====
+AstrBot/data/plugins/astrbot_plugin_feiyu_meme/memes_generated/
+AstrBot/data/plugins/**/__pycache__/
+AstrBot/data/plugins/**/.git/
+AstrBot/data/plugins/astrbot_plugin_BitTorrent/downloads/
+AstrBot/data/plugin_data/
+AstrBot/data/knowledge_base/
+
+# ===== 其他 =====
+meme_import_tmp/
+release/
+.git/
+
+# ===== 内嵌仓库与协议端分发 =====
+AstrBot/.git/
+NapCat.Shell/
+bootmain/
+config/
+persona/

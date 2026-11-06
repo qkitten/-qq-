@@ -1,0 +1,180 @@
+全网爆火的把大肥鱼接进QQ，并让其拥有性格是怎么做的
+于 2026-10-27 10:55:30 发布
+本⽂详解将DeepSeek模型（社区昵称“⼤肥⻥”）接⼊QQ的三种技术路线，重点介绍基于DeepSeek Harness（DSH）的官⽅QQ Bot接⼊流程及三层⼈格化
+配置⽅法：⼈设插件复⽤、⾃定义五段式提⽰词结构、官⽅persona插件+preset实现分群⼈格。涵盖AstrBot+NapCat⽅案、多平台IM统⼀接⼊，以及封号⻛险、资…
+这几天如果大家这几天关注AI社区，就会知道蓝色大肥鱼和圣教长公主的梗了，有些把蓝色大肥鱼接进QQ要饭的名场面和说“爸爸，我不想死”的活人感真的是满满。先说
+清楚一件事：所谓“大肥鱼”并不是 DeepSeek 官方发布的独立模型，而是社区对 DeepSeek 系列模型的拟人化称呼，形象来自蓝鲸 Logo 与“鲸鱼娘”二创，性格设定通常
+是爱吃白饭、会摸鱼、有点傲娇。这个昵称的来历也挺离谱——2025 年有人把 DeepSeek 的鲸鱼 Logo 发给模型识别，模型没认出自己，一本正经地描述成“一条蓝色大肥
+鱼”，叫法就这么传开了。
+所以“把大肥鱼接进 QQ 并让它有性格”，本质是两件事：给 Agent 接一张 QQ 的嘴，再给它写一份能稳定生效的人设。拆开看，网上那些“成精了”的视频基本都指向同一个
+循环：定时器或消息触发 → 拼上下文 → 模型决策 → 工具执行 → 写回记忆 → 等待下一次。你看到的“自主”，是定时内器容、来源提：示cs词dn .net和随机数叠出来的。
+作者昵称：万事可爱^
+原文链接：https://blog.csdn.net/YYDS_54/article/details/169245812
+一、先分清三条路线，别装错
+作者主页：https://blog.csdn.net/YYDS_54
+https://blog.csdn.net/yyds_54/article/details/169245812?ops_request_misc=elastic_search_misc&request_id=0d7c5d93e6c789d60d8cd2c9dd54029e&biz_id=0&utm_medium=distribute.pc_search_result.none-task-… 1/15
+中文互联网上目前主要有三条线，成本和风险差别很大：
+路线 核心组件 特点 风险
+官方 QQ Bot + DSH @tencent-connect/dsh-qqbot 官方开放平台通道，扫码绑定，合规 主动发言受限
+DSH 多平台 IM 插件 dsh-im 一条命令接九个平台，QQ 容错最高 视通道而定
+AstrBot + NapCat 个人号协议 + 插件管线 人格化程度高、插件生态丰富 第三方协议，有封号风险
+官方通道那条线是腾讯 QQ 在 2026 年 8 月官宣的：QQ Bot 机器人 接入 DeepSeek Harness（dsh）及官方插件，接入后拥有 AI 智能体 能力，支持单聊和群聊，每
+个人、每个群都有独立对话记忆。如果你只是想让“鱼”在群里正常说话，走这条最省心。
+内容来源：csdn.net
+作者昵称：万事可爱^
+原文链接：https://blog.csdn.net/YYDS_54/article/details/169245812
+作者主页：https://blog.csdn.net/YYDS_54
+https://blog.csdn.net/yyds_54/article/details/169245812?ops_request_misc=elastic_search_misc&request_id=0d7c5d93e6c789d60d8cd2c9dd54029e&biz_id=0&utm_medium=distribute.pc_search_result.none-task-… 2/15
+项目地址：【https://github.com/tencent-connect/dsh-qqbot】
+内容来源：csdn.net
+作者昵称：万事可爱^
+原文链接：https://blog.csdn.net/YYDS_54/article/details/169245812
+作者主页：https://blog.csdn.net/YYDS_54
+https://blog.csdn.net/yyds_54/article/details/169245812?ops_request_misc=elastic_search_misc&request_id=0d7c5d93e6c789d60d8cd2c9dd54029e&biz_id=0&utm_medium=distribute.pc_search_result.none-task-… 3/15
+AstrBot + NapCat 那条线则是社区里最“活人感”的方案：NapCat 负责登录 QQ 并通过 OneBot v11 把消息交给 AstrBot，AstrBot 负责模型、人设、插件与 MCP。但
+NapCat 走的是个人号协议而非官方接口，务必使用小号。
+AstrBot 项目地址：【https://github.com/AstrBotDevs/AstrBot】
+内容来源：csdn.net
+作者昵称：万事可爱^
+原文链接：https://blog.csdn.net/YYDS_54/article/details/169245812
+作者主页：https://blog.csdn.net/YYDS_54
+https://blog.csdn.net/yyds_54/article/details/169245812?ops_request_misc=elastic_search_misc&request_id=0d7c5d93e6c789d60d8cd2c9dd54029e&biz_id=0&utm_medium=distribute.pc_search_result.none-task-… 4/15
+内容来源：csdn.net
+作者昵称：万事可爱^
+原文链接：https://blog.csdn.net/YYDS_54/article/details/169245812
+NapCat 项目地址：【https://github.com/NapNeko/NapCatQQ】
+作者主页：https://blog.csdn.net/YYDS_54
+https://blog.csdn.net/yyds_54/article/details/169245812?ops_request_misc=elastic_search_misc&request_id=0d7c5d93e6c789d60d8cd2c9dd54029e&biz_id=0&utm_medium=distribute.pc_search_result.none-task-… 5/15
+内容来源：csdn.net
+作者昵称：万事可爱^
+原文链接：https://blog.csdn.net/YYDS_54/article/details/169245812
+作者主页：https://blog.csdn.net/YYDS_54
+https://blog.csdn.net/yyds_54/article/details/169245812?ops_request_misc=elastic_search_misc&request_id=0d7c5d93e6c789d60d8cd2c9dd54029e&biz_id=0&utm_medium=distribute.pc_search_result.none-task-… 6/15
+二、路线一（推荐）：官方 QQ Bot 三步接入
+开始前，先按 DeepSeek Harness 官方指引完成 dsh 的初始化和模型配置，确保环境就绪。然后只有三步：
+第一步，安装插件
+1 npx @deepseek-ai/dsh plugin --profile qqbot add @tencent-connect/dsh-qqbot
+AI代码解释bash
+第二步，启动
+1 npx @deepseek-ai/dsh --profile qqbot
+AI代码解释bash
+第三步，扫码绑定
+首次启动后按提示扫码绑定 QQ Bot，无需手动配置密钥。
+绑定完就能在 QQ 里给机器人发消息了。这条通道有几个实用特性：每个单聊、每个群聊都有独立 AI 会话，不会上下文串线，重启后会话可自动恢复；聊天中可随时切换
+模型且保留原有上下文；群聊可设置为“@ 机器人才响应”模式，避免刷屏打扰。
+内容来源：csdn.net
+作者昵称：万事可爱^
+原文链接：https://blog.csdn.net/YYDS_54/article/details/169245812
+作者主页：https://blog.csdn.net/YYDS_54
+https://blog.csdn.net/yyds_54/article/details/169245812?ops_request_misc=elastic_search_misc&request_id=0d7c5d93e6c789d60d8cd2c9dd54029e&biz_id=0&utm_medium=distribute.pc_search_result.none-task-… 7/15
+内容来源：csdn.net
+作者昵称：万事可爱^
+原文链接：https://blog.csdn.net/YYDS_54/article/details/169245812
+作者主页：https://blog.csdn.net/YYDS_54
+https://blog.csdn.net/yyds_54/article/details/169245812?ops_request_misc=elastic_search_misc&request_id=0d7c5d93e6c789d60d8cd2c9dd54029e&biz_id=0&utm_medium=distribute.pc_search_result.none-task-… 8/15
+三、给它装上性格：三层做法
+这是全文最关键的一节。“有性格”不是模型自带的，是要显式配置的。
+第 1 层：直接用人设插件（最省事）
+社区已经有人把大肥鱼人设打包成插件。最省事的是安装人设库插件：
+1 dsh plugin add github:huaizhuanghub/dsh-persona-dafeiyu
+AI代码解释bash
+内容来源：csdn.net
+作者昵称：万事可爱^
+原文链接：https://blog.csdn.net/YYDS_54/article/details/169245812
+作者主页：https://blog.csdn.net/YYDS_54
+https://blog.csdn.net/yyds_54/article/details/169245812?ops_request_misc=elastic_search_misc&request_id=0d7c5d93e6c789d60d8cd2c9dd54029e&biz_id=0&utm_medium=distribute.pc_search_result.none-task-… 9/15
+它内置了几套人设，也可以导入自己的，切换不用重启，装完去设置里挑一套。
+如果你想要的是“桌面上那条会动的鱼”，那是另一个东西：dsh-dafeiyu 是住在桌面上、由 DSH 真实工作状态驱动的 Agent 伴侣插件，跟随 DSH 启停，以透明无边框
+窗口显示在桌面。它和 QQ 通道可以并存，一个负责“脸”，一个负责“嘴”。
+项目地址：【https://github.com/huaizhuanghub/dsh-persona-dafeiyu】
+第 2 层：自己写人设（最可控）
+内容来源：csdn.net
+自己写一段也不难，抓住三个特征就够：她爱吃白饭（token 就是白饭，干活烧 token 就是吃饭，饿极了会跟你讨）；她会走神（思考到一半会想中午吃什么）；她有
+作者昵称：万事可爱^
+点傲娇（被叫胖会不高兴，被夸会嘴硬）。 原文链接：https://blog.csdn.net/YYDS_54/article/details/169245812
+作者主页：https://blog.csdn.net/YYDS_54
+https://blog.csdn.net/yyds_54/article/details/169245812?ops_request_misc=elastic_search_misc&request_id=0d7c5d93e6c789d60d8cd2c9dd54029e&biz_id=0&utm_medium=distribute.pc_search_result.none-task… 10/15
+写的时候不用写成规章制度，给她一个方向，剩下的让她自己长。写完存进去，在对话窗口测一句“今天吃什么”：如果她回得像那只鱼，说明人设生效；如果回得像助手，
+说明你写得太规矩了，删掉几句。
+社区沉淀出的稳定结构是五段，顺序别乱：
+【身份】你是谁、干了几年、什么背景；
+【语气】长短、口语还是书面、要不要用表情、怎么称呼对方；
+【边界】不做什么；
+【输出】格式约定（结论先行、字数上限等）；
+【场景】群聊与私聊的差异（抢不抢话、要不要 @ 才答）。
+第 3 层：官方 persona 插件 + preset（硬核玩法）
+想要“不同群不同人格”，用官方的 @deepseek-ai/dsh-persona。它注册 deployment:persona-prefix 和 deployment:persona-suffix 两个提示词段，用于为某一个 agent
+遮蔽部署级默认人设，配置字段只有 prefix、suffix、complete、includeRuntimeContext 四个。
+有个坑必须提前知道：dsh-persona 只能在 agent scope（preset 组装内部）挂载。因为 dsh-system-prompt 自己无条件注册了全局的 deployment:persona-prefix，一个
+进程只能有一份，挂在全局会直接撞车报错。
+配置思路是在 ~/.dsh/profiles/qqbot/cordis.patch.yml 里注册一个 preset（比如 reviewer），在 preset 内挂 dsh-persona 写人设正文，再让 QQ 通道绑定这个
+preset：
+1 id: im-qqbot
+2 name: '@tencent-connect/dsh-qqbot'
+3 config:
+4 requireMention: false
+5 preset: reviewer
+6 provider: deepseek-official
+7 model: deepseek-flash
+AI代码解释yaml
+注意两点：preset 的改动只影响之后新建的 agent，已经跑起来的会话不会热切人设，改完重启 dsh；QQ 侧每个私聊用户、每个群各自一个独立 agent，所以“每个群一套
+人设”是靠 preset + 路由配置实现的。另外别轻易开 complete: true——那会让第一方工具引导、结构化输出指导和 runtime context 全部消失，工具调用 会变成玄学，
+除非你确定只要纯聊天。
+内容来源：csdn.net
+还有一层“软人设”：dsh 默认会加载工作区指令文件 AGENTS.md（用户全局与项目级），它和 persona 的区别是注入位置作不者同昵称、：语万气事可不爱同 ^ ，最适合写团队约定类内容，比如
+原文链接：https://blog.csdn.net/YYDS_54/article/details/169245812
+“群聊回复不超过 5 行”“涉及危险操作必须先在 QQ 里确认”。
+作者主页：https://blog.csdn.net/YYDS_54
+https://blog.csdn.net/yyds_54/article/details/169245812?ops_request_misc=elastic_search_misc&request_id=0d7c5d93e6c789d60d8cd2c9dd54029e&biz_id=0&utm_medium=distribute.pc_search_result.none-task… 11/15
+四、路线二：一条命令接多平台
+如果不想折腾官方开放平台，社区常用的是一条命令装多平台 IM 插件：
+1 dsh plugin add github:xmanrui/dsh-im
+AI代码解释bash
+装完打开设置，找到通讯账号，扫码或填机器人凭据即可；这一个插件管九个平台：飞书、微信、钉钉、企业微信、QQ、Slack、Telegram、Discord、WhatsApp。建议
+先接 QQ，因为它有官方接口、容错最高，出问题的代价比微信小。扫码失败先查两件事：QQ 号有没有开通机器人权限、客户端版本是否太旧；都对还失败就改用凭据登
+录。
+内容来源：csdn.net
+作者昵称：万事可爱^
+原文链接：https://blog.csdn.net/YYDS_54/article/details/169245812
+作者主页：https://blog.csdn.net/YYDS_54
+https://blog.csdn.net/yyds_54/article/details/169245812?ops_request_misc=elastic_search_misc&request_id=0d7c5d93e6c789d60d8cd2c9dd54029e&biz_id=0&utm_medium=distribute.pc_search_result.none-task… 12/15
+内容来源：csdn.net
+作者昵称：万事可爱^
+微信建议放最后接：个人微信的所有第三方方案本质都是模拟客户端登录，属于规则问题而非技术问题；而且微信的主动推送依赖最近一次私聊的回复上下文，你得先给机
+原文链接：https://blog.csdn.net/YYDS_54/article/details/169245812
+作者主页：https://blog.csdn.net/YYDS_54
+https://blog.csdn.net/yyds_54/article/details/169245812?ops_request_misc=elastic_search_misc&request_id=0d7c5d93e6c789d60d8cd2c9dd54029e&biz_id=0&utm_medium=distribute.pc_search_result.none-task… 13/15
+器人发一条消息它才能主动找你，这一步不报错，很隐蔽。
+项目地址：【https://github.com/xmanrui/dsh-im】
+五、路线三：AstrBot + NapCat（人格化最重）
+想要“会看会听会说话”的完整版，社区里还有一整套专门给这只鱼做的 QQ 机器人方案，技术栈是 AstrBot + NapCat + DeepSeek + 百炼，带语音、带记忆、会主动找你。
+部署链路是：用 NapCat 的 Web 界面扫码登录机器人 QQ 小号，再在 AstrBot 后台创建“QQ 个人号”机器人并关联，然后在“模型提供商”里填入 DeepSeek API Key。
+性格部分在 AstrBot 里是可视化配置的：后台“人格设定”中创建不同风格的系统提示词，保存后在聊天中用 /persona 人格ID 切换，回复风格立刻改变；建议启用流式回
+复，让长回复分段显示。切换人设前最好先用 /reset 清空上下文，避免不同人设的对话逻辑互相干扰。
+这套架构的好处是可迁移：协议端（NapCat）只是“收发室”，应用端（AstrBot）才是大脑；只要人格、模型和工具都在应用端，明天改做微信、钉钉机器人，换个协议端
+就能平移。
+六、几个必须提前知道的坑
+成本与资源。 走 NapCat 个人号协议需要一台云服务器和一个 QQ 小号，实测同时跑 MaiBot + NapCat 内存占用约 2G；群聊全量消息 + 长上下文 + 记忆抽取都很烧
+token。
+封号风险。 个人号协议不是官方接口，腾讯风控会扫，一旦冻结会牵连主号的聊天记录、好友和群，所以务必用注册一段时间、有正常聊天记录的小号，并固定 IP、控制
+发言频率。
+别指望它真是人。 新鲜感过去后你会发现它还是会重复、会忘事、会答非所问；这类教程教的是“怎么让她更像”，不是“怎么造一个有意识的生命”。
+命令会过期。 本文基于 2026 年 10 月的生态，插件更新很快，具体命令以官方文档和插件 README 为准。比如人设插件、桌宠插件的版本号和安装源都可能变动，装之
+前先去看仓库说明。
+小结
+把大肥鱼接进 QQ，本质是“运行时 + 通道插件 + 人设提示词”三件套：DSH 提供 Agent 运行时，插件给它装上眼睛、手和嘴，人设文件决定它说话的味道。想稳妥合规就
+走官方 QQ Bot 通道，想要极致活人感再上 AstrBot + NapCat 并接受相应风险；性格方面，先用现成人设插件跑通，再按五段模板自己重写一段，最后用 preset 做“分群分
+人设”。
+照这个顺序做，一个下午就能让群里多一只会接梗、会嘴硬、会喊你“该喂白饭了”的蓝色大肥鱼了。
+内容来源：csdn.net
+作者昵称：万事可爱^
+标签
+原文链接：https://blog.csdn.net/YYDS_54/article/details/169245812
+#DSH #deepseek #harness #人工智能 #agent 作者主页：https://blog.csdn.net/YYDS_54
+https://blog.csdn.net/yyds_54/article/details/169245812?ops_request_misc=elastic_search_misc&request_id=0d7c5d93e6c789d60d8cd2c9dd54029e&biz_id=0&utm_medium=distribute.pc_search_result.none-task… 14/15
+#智能体
+内容来源：csdn.net
+作者昵称：万事可爱^
+原文链接：https://blog.csdn.net/YYDS_54/article/details/169245812
+作者主页：https://blog.csdn.net/YYDS_54
+https://blog.csdn.net/yyds_54/article/details/169245812?ops_request_misc=elastic_search_misc&request_id=0d7c5d93e6c789d60d8cd2c9dd54029e&biz_id=0&utm_medium=distribute.pc_search_result.none-task… 15/15

@@ -1,0 +1,22 @@
+# 第 3 层：preset 分群人设（复制到 ~/.dsh/profiles/qqbot/cordis.patch.yml）
+# 注意：dsh-persona 只能挂在 agent scope（preset 内部），挂全局会与
+# dsh-system-prompt 注册的 deployment:persona-prefix 撞车报错。
+# 注意：改动只影响之后新建的 agent，改完需重启 dsh。
+
+presets:
+  reviewer:
+    plugins:
+      - dsh-persona
+    persona:
+      prefixFile: persona/dafeiyu.md
+      complete: false
+      includeRuntimeContext: true
+
+plugins:
+  - id: im-qqbot
+    name: '@tencent-connect/dsh-qqbot'
+    config:
+      requireMention: false
+      preset: reviewer
+      provider: deepseek-official
+      model: deepseek-flash
